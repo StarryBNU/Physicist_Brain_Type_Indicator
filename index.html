@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PBTI - 物理学家人格类型指示器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* 首页 */
+        .start-screen {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .logo {
+            font-size: 72px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            padding: 16px 48px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+        }
+
+        /* 测试页面 */
+        .test-screen {
+            padding: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .question-number {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .question {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            line-height: 1.4;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .options {
+            display: grid;
+            gap: 16px;
+        }
+
+        .option {
+            padding: 20px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(102, 126, 234, 0.5);
+            transform: translateX(10px);
+        }
+
+        .option.selected {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            border-color: #667eea;
+        }
+
+        /* 结果页面 */
+        .result-screen {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .result-type {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .result-name {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .result-icon {
+            font-size: 80px;
+            margin: 30px 0;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        .result-description {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 30px;
+        }
+
+        .traits {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .trait {
+            padding: 16px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        .trait-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 4px;
+        }
+
+        .trait-value {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .dimensions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .dimension {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            font-size: 13px;
+        }
+
+        .dimension-letter {
+            font-size: 24px;
+            font-weight: 800;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+
+        .dimension-name {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .famous-physicists {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 16px;
+        }
+
+        .famous-physicists h4 {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 12px;
+        }
+
+        .famous-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .famous-tag {
+            padding: 6px 14px;
+            background: rgba(102, 126, 234, 0.3);
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .share-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            margin-top: 10px;
+        }
+
+        .share-btn:hover {
+            box-shadow: 0 15px 40px rgba(245, 87, 108, 0.5);
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .question {
+                font-size: 22px;
+                min-height: 100px;
+            }
+
+            .traits {
+                grid-template-columns: 1fr;
+            }
+
+            .dimensions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .result-type {
+                font-size: 42px;
+            }
+
+            .result-name {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 首页 -->
+        <div id="startScreen" class="start-screen">
+            <div class="logo">⚛️</div>
+            <h1>PBTI</h1>
+            <p class="subtitle">Physicist Brain Type Indicator<br>物理学家人格类型指示器</p>
+            <div style="margin-bottom: 40px; color: rgba(255,255,255,0.6); font-size: 14px;">
+                30道科学思维题目 · 16种人格类型<br>发现你内在的物理学思维模式
+            </div>
+            <button class="btn" onclick="startTest()">开始测试</button>
+        </div>
+
+        <!-- 测试页面 -->
+        <div id="testScreen" class="test-screen hidden">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="question-number" id="questionNumber">问题 1/30</div>
+            <div class="question" id="question"></div>
+            <div class="options" id="options"></div>
+        </div>
+
+        <!-- 结果页面 -->
+        <div id="resultScreen" class="result-screen hidden">
+            <div class="result-type" id="resultType"></div>
+            <div class="result-name" id="resultName"></div>
+            <div class="result-icon" id="resultIcon"></div>
+            <div class="result-description" id="resultDescription"></div>
+
+            <div class="dimensions" id="dimensions"></div>
+
+            <div class="traits" id="traits"></div>
+
+            <div class="famous-physicists">
+                <h4>🔬 同类型的著名物理学家</h4>
+                <div class="famous-list" id="famousPhysicists"></div>
+            </div>
+
+            <button class="btn" onclick="location.reload()">重新测试</button>
+            <button class="btn share-btn" onclick="shareResult()">分享结果</button>
+        </div>
+    </div>
+
+    <script>
+        // 30道题目
+        const questions = [
+            {
+                q: "面对一个复杂的物理现象，你更倾向于：",
+                a: "先设计实验进行验证",
+                b: "先从理论上推导模型"
+            },
+            {
+                q: "在研究问题时，你更关注：",
+                a: "整体现象和宏观规律",
+                b: "微观机制和基本原理"
+            },
+            {
+                q: "当实验数据与理论预测不符时：",
+                a: "重新检查实验设备和方法",
+                b: "怀疑理论模型的假设"
+            },
+            {
+                q: "你更喜欢哪类物理领域：",
+                a: "凝聚态物理、天体物理",
+                b: "粒子物理、量子场论"
+            },
+            {
+                q: "解决新问题时，你倾向于：",
+                a: "用逻辑推理逐步分析",
+                b: "依靠直觉和洞察力"
+            },
+            {
+                q: "学习新概念时，你更重视：",
+                a: "数学推导的严密性",
+                b: "物理图像的直观性"
+            },
+            {
+                q: "在做研究时，你更倾向于：",
+                a: "遵循既定的研究框架",
+                b: "尝试全新的探索方向"
+            },
+            {
+                q: "面对多个理论解释，你更看重：",
+                a: "哪个更符合现有实验数据",
+                b: "哪个数学上更优雅简洁"
+            },
+            {
+                q: "你更喜欢哪种工作方式：",
+                a: "团队协作，共享资源",
+                b: "独立思考，深入探索"
+            },
+            {
+                q: "在实验中遇到意外结果时：",
+                a: "系统性排查所有可能因素",
+                b: "相信直觉，大胆假设新机制"
+            },
+            {
+                q: "你更着迷于：",
+                a: "已知定律的应用",
+                b: "未知现象的探索"
+            },
+            {
+                q: "阅读论文时，你更注意：",
+                a: "实验方法和数据可靠性",
+                b: "理论创新和思想深度"
+            },
+            {
+                q: "面对复杂的计算，你更倾向于：",
+                a: "借助计算工具和模拟",
+                b: "手工推导，理解每一步"
+            },
+            {
+                q: "你认为物理学最迷人的是：",
+                a: "它能精确预测实验结果",
+                b: "它能揭示宇宙的本质"
+            },
+            {
+                q: "在研究中，你更注重：",
+                a: "方法的可重复性",
+                b: "思想的创新性"
+            },
+            {
+                q: "面对竞争激烈的研究领域：",
+                a: "选择有把握的课题",
+                b: "冒险探索未知领域"
+            },
+            {
+                q: "你认为物理学的进步主要靠：",
+                a: "实验技术的突破",
+                b: "理论的革新"
+            },
+            {
+                q: "在解释现象时，你更喜欢：",
+                a: "直观的经典图像",
+                b: "抽象的数学表述"
+            },
+            {
+                q: "遇到困难时，你更倾向于：",
+                a: "参考前人的解决方案",
+                b: "从第一性原理重新思考"
+            },
+            {
+                q: "你认为自己的思维方式更接近：",
+                a: "工程师思维",
+                b: "艺术家思维"
+            },
+            {
+                q: "在实验设计中，你更重视：",
+                a: "精确性和控制性",
+                b: "创新性和探索性"
+            },
+            {
+                q: "面对未知的物理现象：",
+                a: "先建立理论框架",
+                b: "先进行实验观测"
+            },
+            {
+                q: "你更欣赏哪种研究风格：",
+                a: "扎实稳健，步步为营",
+                b: "大胆创新，突破常规"
+            },
+            {
+                q: "在学术交流中，你更倾向于：",
+                a: "讨论具体技术细节",
+                b: "探讨理论思想"
+            },
+            {
+                q: "你认为物理学的终极目标是：",
+                a: "提供实用的技术应用",
+                b: "理解宇宙的根本规律"
+            },
+            {
+                q: "面对失败的数据：",
+                a: "仔细分析误差来源",
+                b: "质疑整个研究思路"
+            },
+            {
+                q: "你更感兴趣于：",
+                a: "复杂系统的涌现行为",
+                b: "基本粒子的简单规律"
+            },
+            {
+                q: "做选择时，你更依赖：",
+                a: "充分的调研和论证",
+                b: "直觉和灵感"
+            },
+            {
+                q: "在物理学史上，你更敬佩：",
+                a: "法拉第式的实验家",
+                b: "麦克斯韦式的理论家"
+            },
+            {
+                q: "如果只能选择一个研究目标：",
+                a: "做出有实用价值的工作",
+                b: "提出颠覆性的理论"
+            }
+        ];
+
+        // 维度映射 (E/T, M/C, L/I, O/S)
+        const dimensionMap = [
+            'E', 'M', 'E', 'M', 'L', 'L', 'O', 'E', 'O', 'I',
+            'O', 'E', 'L', 'O', 'O', 'O', 'E', 'L', 'S', 'L',
+            'O', 'T', 'O', 'E', 'T', 'I', 'M', 'I', 'E', 'T'
+        ];
+
+        // 16种人格类型
+        const personalityTypes = {
+            'EMLO': {
+                name: '实验探索者',
+                icon: '🔭',
+                description: '你是一个天生的实验探索者，对未知充满好奇。你喜欢通过观察和实验来理解世界，善于从宏观现象中发现规律。你相信实践出真知，动手能力强，在实验物理、天体物理领域会如鱼得水。你开放包容，乐于接受新的想法和方法。',
+                traits: [
+                    { label: '思维倾向', value: '实验驱动' },
+                    { label: '关注焦点', value: '宏观现象' },
+                    { label: '决策方式', value: '逻辑分析' },
+                    { label: '工作风格', value: '开放灵活' }
+                ],
+                famous: ['伽利略', '第谷', '哈勃']
+            },
+            'EMLI': {
+                name: '直觉实验家',
+                icon: '⚡',
+                description: '你拥有独特的直觉洞察力，能够从实验中看到别人忽略的细节。你善于发现异常现象，并凭直觉提出大胆的假设。你对微观世界的奥秘着迷，往往能通过巧妙的实验设计揭示深层的物理规律。',
+                traits: [
+                    { label: '思维倾向', value: '实验驱动' },
+                    { label: '关注焦点', value: '微观机制' },
+                    { label: '决策方式', value: '直觉洞察' },
+                    { label: '工作风格', value: '开放灵活' }
+                ],
+                famous: ['费米', '卢瑟福', '吴健雄']
+            },
+            'EMSO': {
+                name: '实验工程师',
+                icon: '🔧',
+                description: '你是实验物理界的工程师，严谨、精确、可靠。你善于设计精密的实验，控制所有变量，确保结果的准确性。你喜欢有清晰目标的研究，能在既定框架内做出杰出贡献。在仪器开发、精密测量领域你是专家。',
+                traits: [
+                    { label: '思维倾向', value: '实验驱动' },
+                    { label: '关注焦点', value: '宏观现象' },
+                    { label: '决策方式', value: '逻辑分析' },
+                    { label: '工作风格', value: '结构化' }
+                ],
+                famous: ['卡文迪许', '密立根', '迈克耳孙']
+            },
+            'EMSI': {
+                name: '微观工程师',
+                icon: '🔬',
+                description: '你是微观世界的精密工程师，对细节有极高的要求。你善于设计复杂的实验来探测微观粒子的行为，精确到每一个细节。你的工作风格严谨有序，是粒子物理实验、量子技术领域的理想人选。',
+                traits: [
+                    { label: '思维倾向', value: '实验驱动' },
+                    { label: '关注焦点', value: '微观机制' },
+                    { label: '决策方式', value: '直觉洞察' },
+                    { label: '工作风格', value: '结构化' }
+                ],
+                famous: ['丁肇中', '塞格雷', '雷德']
+            },
+            'ETLO': {
+                name: '宏观理论家',
+                icon: '🌌',
+                description: '你是宏大的理论家，擅长构建能解释复杂现象的理论框架。你关心宇宙的运行规律，从星系到黑洞，你的视野广阔而深邃。你的理论往往具有预测力，能够指导实验的方向。',
+                traits: [
+                    { label: '思维倾向', value: '理论驱动' },
+                    { label: '关注焦点', value: '宏观现象' },
+                    { label: '决策方式', value: '逻辑分析' },
+                    { label: '工作风格', value: '开放灵活' }
+                ],
+                famous: ['爱因斯坦', '霍金', '彭罗斯']
+            },
+            'ETLI': {
+                name: '微观理论家',
+                icon: '🧬',
+               描述: '你是微观世界的理论大师，深入探索物质的最基本结构。从量子力学到弦理论，你致力于构建描述基本粒子行为的理论框架。你的思想抽象而深刻，经常挑战常识的边界。',
+                traits: [
+                    { label: '思维倾向', value: '理论驱动' },
+                    { label: '关注焦点', value: '微观机制' },
+                    { label: '决策方式', value: '直觉洞察' },
+                    { label: '工作风格', value: '开放灵活' }
+                ],
+                famous: ['海森堡', '狄拉克', '费曼']
+            },
+            'ETSO': {
+                name: '系统理论家',
+                icon: '🏗️',
+                description: '你是构建理论大厦的建筑师，追求理论的完备和严谨。你喜欢将分散的现象统一起来，形成自洽的理论体系。你的工作方式有条不紊，在经典力学、电动力学等领域表现卓越。',
+                traits: [
+                    { label: '思维倾向', value: '理论驱动' },
+                    { label: '关注焦点', value: '宏观现象' },
+                    { label: '决策方式', value: '逻辑分析' },
+                    { label: '工作风格', value: '结构化' }
+                ],
+                famous: ['牛顿', '麦克斯韦', '拉格朗日']
+            },
+            'ETSI': {
+                name: '量子理论家',
+                icon: '🎯',
+                description: '你是量子世界的诠释者，致力于理解微观粒子的奇异行为。你对量子力学的数学结构和诠释有深刻见解，能在抽象的形式中看到物理图像。你的理论往往精确而优美。',
+                traits: [
+                    { label: '思维倾向', value: '理论驱动' },
+                    { label: '关注焦点', value: '微观机制' },
+                    { label: '决策方式', value: '直觉洞察' },
+                    { label: '工作风格', value: '结构化' }
+                ],
+                famous: ['薛定谔', '泡利', '玻恩']
+            },
+            'TMLO': {
+                name: '理论探索者',
+                icon: '🔍',
+                description: '你是理论的探索者，不满足于现有框架，总是在寻找更深层的原理。你关注宏观现象背后的本质，善于提出颠覆性的新思想。你的工作充满想象力，可能会开辟全新的研究方向。',
+                traits: [
+                    { label: '思维倾向', value: '理论驱动' },
+                    { label: '关注焦点', value: '宏观现象' },
+                    { label: '决策方式', value: '逻辑分析' },
+                    { label: '工作风格', value: '开放灵活' }
+                ],
+                famous: ['狄拉克', '外尔', '彭罗斯']
+            },
+            'TMLI': {
+                name: '直觉理论家',
+                icon: '💡',
+                description: '你拥有强大的物理直觉，能够"看见"复杂的物理过程。你对微观机制有天生的理解力，常常能凭直觉猜出正确的结果，然后再用数学证明。你理论家的气质中带有艺术家的灵感。',
+                traits: [
+                    { label: '思维倾向', value: '理论驱动' },
+                    { label: '关注焦点', value: '微观机制' },
+                    { label: '决策方式', value: '直觉洞察' },
+                    { label: '工作风格', value: '开放灵活' }
+                ],
+                famous: ['玻尔', '费曼', '杨振宁']
+            },
+            'TMSO': {
+                name: '理论工程师',
+                icon: '⚙️',
+                description: '你是理论的工程师，擅长将抽象理论转化为可计算、可验证的模型。你喜欢精确的数学，追求理论的实用价值。你在计算物理、理论计算领域会大放异彩。',
+                traits: [
+                    { label: '思维倾向', value: '理论驱动' },
+                    { label: '关注焦点', value: '宏观现象' },
+                    { label: '决策方式', value: '逻辑分析' },
+                    { label: '工作风格', value: '结构化' }
+                ],
+                famous: ['哈密顿', '拉普拉斯', '泊松']
+            },
+            'TMSI': {
+                name: '量子工程师',
+                icon: '🎹',
+                description: '你是量子力学的工程师，将抽象的量子理论转化为实际的技术应用。你对量子态的操控有深刻的理解，能够在理论框架内发展出新的技术方案。你在量子计算、量子通信领域前景无限。',
+                traits: [
+                    { label: '思维倾向', value: '理论驱动' },
+                    { label: '关注焦点', value: '微观机制' },
+                    { label: '决策方式', value: '直觉洞察' },
+                    { label: '工作风格', value: '结构化' }
+                ],
+                famous: ['贝尼奥夫', '本内特', '姚期智']
+            },
+            'TLLO': {
+                name: '逻辑实验家',
+                icon: '🧩',
+                description: '你是逻辑严密的实验家，每一次实验都经过深思熟虑。你善于设计控制变量严格的实验，从数据中提取可靠的结论。你相信实验能检验一切理论，是实验物理的典范。',
+                traits: [
+                    { label: '思维倾向', value: '实验驱动' },
+                    { label: '关注焦点', value: '宏观现象' },
+                    { label: '决策方式', value: '逻辑分析' },
+                    { label: '工作风格', value: '开放灵活' }
+                ],
+                famous: ['欧拉', '高斯', '安培']
+            },
+            'TLLI': {
+                name: '洞察实验家',
+                icon: '👁️',
+                description: '你有敏锐的洞察力，能从看似平凡的实验中发现深意。你善于捕捉细微的异常，并通过直觉找到背后的机制。你的实验设计往往巧妙而富有启发性。',
+                traits: [
+                    { label: '思维倾向', value: '实验驱动' },
+                    { label: '关注焦点', value: '微观机制' },
+                    { label: '决策方式', value: '直觉洞察' },
+                    { label: '工作风格', value: '开放灵活' }
+                ],
+                famous: ['法拉第', '伦琴', '汤姆逊']
+            },
+            'TLSO': {
+                name: '系统实验家',
+                icon: '📊',
+                description: '你是系统化的实验家，擅长建立完整的实验体系。你追求全面的数据，喜欢系统性地探索参数空间。你的工作严谨而完整，为理论家提供可靠的数据支撑。',
+                traits: [
+                    { label: '思维倾向', value: '实验驱动' },
+                    { label: '关注焦点', value: '宏观现象' },
+                    { label: '决策方式', value: '逻辑分析' },
+                    { label: '工作风格', value: '结构化' }
+                ],
+                famous: ['布拉格父子', '劳厄', '佩林']
+            },
+            'TLSI': {
+                name: '精密实验家',
+                icon: '📏',
+                description: '你是极致精确的实验家，对测量的准确度有近乎偏执的追求。你设计的实验能达到极高的精度，能够验证最微小的理论预测。你在精密测量、基本常数测定领域是专家。',
+                traits: [
+                    { label: '思维倾向', value: '实验驱动' },
+                    { label: '关注焦点', value: '微观机制' },
+                    { label: '决策方式', value: '直觉洞察' },
+                    { label: '工作风格', value: '结构化' }
+                ],
+                famous: ['卡文迪许', '密立根', '德布罗意']
+            }
+        };
+
+        const dimensionNames = {
+            'E': '实验型', 'T': '理论型',
+            'M': '宏观', 'C': '微观',
+            'L': '逻辑型', 'I': '直觉型',
+            'O': '开放型', 'S': '结构型'
+        };
+
+        let currentQuestion = 0;
+        let scores = { E: 0, T: 0, M: 0, C: 0, L: 0, I: 0, O: 0, S: 0 };
+
+        function startTest() {
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('testScreen').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('questionNumber').textContent = `问题 ${currentQuestion + 1}/${questions.length}`;
+            document.getElementById('question').textContent = question.q;
+            document.getElementById('progressFill').style.width = `${((currentQuestion) / questions.length) * 100}%`;
+
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = `
+                <div class="option" onclick="selectAnswer('a')">${question.a}</div>
+                <div class="option" onclick="selectAnswer('b')">${question.b}</div>
+            `;
+        }
+
+        function selectAnswer(choice) {
+            const dimension = dimensionMap[currentQuestion];
+            if (choice === 'a') {
+                scores[dimension]++;
+            } else {
+                const opposites = { 'E': 'T', 'T': 'E', 'M': 'C', 'C': 'M', 'L': 'I', 'I': 'L', 'O': 'S', 'S': 'O' };
+                scores[opposites[dimension]]++;
+            }
+
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('testScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+
+            // 计算结果
+            const type = (scores.E >= scores.T ? 'E' : 'T') +
+                        (scores.M >= scores.C ? 'M' : 'C') +
+                        (scores.L >= scores.I ? 'L' : 'I') +
+                        (scores.O >= scores.S ? 'O' : 'S');
+
+            const result = personalityTypes[type];
+
+            document.getElementById('resultType').textContent = type;
+            document.getElementById('resultName').textContent = result.name;
+            document.getElementById('resultIcon').textContent = result.icon;
+            document.getElementById('resultDescription').textContent = result.description;
+
+            // 显示维度
+            const dimensionsDiv = document.getElementById('dimensions');
+            dimensionsDiv.innerHTML = type.split('').map(d => `
+                <div class="dimension">
+                    <div class="dimension-letter">${d}</div>
+                    <div class="dimension-name">${dimensionNames[d]}</div>
+                </div>
+            `).join('');
+
+            // 显示特质
+            const traitsDiv = document.getElementById('traits');
+            traitsDiv.innerHTML = result.traits.map(t => `
+                <div class="trait">
+                    <div class="trait-label">${t.label}</div>
+                    <div class="trait-value">${t.value}</div>
+                </div>
+            `).join('');
+
+            // 显示著名物理学家
+            const famousDiv = document.getElementById('famousPhysicists');
+            famousDiv.innerHTML = result.famous.map(f => `<span class="famous-tag">${f}</span>`).join('');
+        }
+
+        function shareResult() {
+            const type = document.getElementById('resultType').textContent;
+            const name = document.getElementById('resultName').textContent;
+            const text = `我的物理学家人格类型是 ${type} - ${name}！快来测测你是哪种物理学思维吧！`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'PBTI 测试结果',
+                    text: text
+                });
+            } else {
+                navigator.clipboard.writeText(text);
+                alert('结果已复制到剪贴板！');
+            }
+        }
+    </script>
+</body>
+</html>
