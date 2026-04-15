@@ -1,132 +1,73 @@
-# PBTI - 物理学家人格类型指示器
+# React + TypeScript + Vite
 
-Physicist Brain Type Indicator - 一个基于物理学思维模式的人格测试系统。
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## ✨ 特性
+Currently, two official plugins are available:
 
-- **30 道精心设计的题目** - 基于物理学研究方法和思维模式
-- **16 种独特的人格类型** - 每种都有详细的描述和代表性物理学家
-- **4 个核心维度**：
-  - **E/T** (实验型/理论型) - 你更倾向于实验验证还是理论推导？
-  - **M/C** (宏观/微观) - 你更关注宏观现象还是微观机制？
-  - **L/I** (逻辑型/直觉型) - 你靠逻辑分析还是直觉洞察？
-  - **O/S** (开放型/结构型) - 你喜欢探索未知还是遵循框架？
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## 🎯 16种人格类型
+## React Compiler
 
-| 类型 | 名称 | 特点 |
-|------|------|------|
-| EMLO | 实验探索者 | 通过观察和实验理解世界 |
-| EMLI | 直觉实验家 | 从异常中发现新机制 |
-| EMSO | 实验工程师 | 严谨精确的实验设计 |
-| EMSI | 微观工程师 | 精密测量微观粒子 |
-| ETLO | 宏观理论家 | 构建解释宇宙的理论 |
-| ETLI | 微观理论家 | 探索物质基本结构 |
-| ETSO | 系统理论家 | 统一分散的理论体系 |
-| ETSI | 量子理论家 | 诠释量子世界 |
-| TMLO | 理论探索者 | 寻找更深层原理 |
-| TMLI | 直觉理论家 | 拥有强大物理直觉 |
-| TMSO | 理论工程师 | 转化理论为可计算模型 |
-| TMSI | 量子工程师 | 量子技术专家 |
-| TLLO | 逻辑实验家 | 严密的实验验证 |
-| TLLI | 洞察实验家 | 捕捉实验中的深意 |
-| TLSO | 系统实验家 | 建立完整实验体系 |
-| TLSI | 精密实验家 | 追求极致测量精度 |
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## 🚀 快速开始
+## Expanding the ESLint configuration
 
-### 方法 1：直接打开
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-双击 `index.html` 文件，在浏览器中打开即可使用。
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-### 方法 2：本地服务器
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-```bash
-# Python
-python -m http.server 8000
-
-# Node.js
-npx serve .
-
-# 访问
-http://localhost:8000
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
-## 📊 测试维度说明
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-### 1. 实验型 (E) vs 理论型 (T)
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-- **实验型**: 相信实践出真知，通过观察和实验验证想法
-- **理论型**: 从第一性原理出发，构建数学模型和理论框架
-
-### 2. 宏观 (M) vs 微观 (C)
-
-- **宏观**: 关注整体现象、系统行为、可观测的规律
-- **微观**: 探索基本粒子、底层机制、不可见的本质
-
-### 3. 逻辑型 (L) vs 直觉型 (I)
-
-- **逻辑型**: 通过严密推理、逐步分析得出结论
-- **直觉型**: 依靠洞察力、灵感和物理图像直接"看见"答案
-
-### 4. 开放型 (O) vs 结构型 (S)
-
-- **开放型**: 喜欢探索未知、尝试新方法、接受不确定性
-- **结构型**: 偏好清晰框架、系统性方法、可重复的流程
-
-## 🔬 著名物理学家对照
-
-每种人格类型都配对历史上著名的物理学家，帮助理解不同思维模式的表现。
-
-例如：
-- **爱因斯坦** - ETLO (宏观理论家)：构建了相对论，解释宇宙的基本规律
-- **费曼** - TMLI (直觉理论家)：以物理直觉著称，能"看见"复杂的量子过程
-- **法拉第** - TLLI (洞察实验家)：凭借直觉发现电磁感应现象
-
-## 📱 技术特点
-
-- 纯前端实现，无需服务器
-- 响应式设计，支持移动端
-- 优美的渐变动画效果
-- 本地计分，保护隐私
-- 支持分享结果
-
-## 🌐 部署
-
-### GitHub Pages
-
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git push origin main
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-
-在仓库设置中启用 GitHub Pages 即可。
-
-### Vercel/Netlify
-
-直接拖拽文件夹或连接 Git 仓库即可部署。
-
-### 自定义域名
-
-在任何部署平台中配置自定义域名。
-
-## 📝 使用场景
-
-- 物理专业学生了解自己的思维特点
-- 科研团队了解成员的工作风格
-- 物理爱好者探索自己的"物理学人格"
-- 教育机构作为课堂活动
-
-## ⚖️ 免责声明
-
-本测试仅供娱乐和自我探索，不代表科学评估。结果不应作为职业选择或能力判断的依据。
-
-## 📄 许可证
-
-MIT License - 自由使用和修改
-
----
-
-**发现你的物理学思维模式！⚛️**
