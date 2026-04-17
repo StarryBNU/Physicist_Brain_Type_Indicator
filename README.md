@@ -1,73 +1,133 @@
-# React + TypeScript + Vite
+# PBTI - 物理学家脑型指标测试
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> 探索你内心深处的物理学家人格！
 
-Currently, two official plugins are available:
+## 项目简介
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+PBTI（Physicist Brain Type Indicator）是一个趣味性的人格测试应用，灵感来源于MBTI人格测试。通过回答25道精心设计的物理相关问题，帮助你发现自己作为"物理学家"的思维风格。
 
-## React Compiler
+## 四个维度，16种人格
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 维度说明
 
-## Expanding the ESLint configuration
+| 维度对 | 选项A | 选项B | 含义 |
+|--------|-------|-------|------|
+| **思维方式** | I - 直觉派 | D - 推导派 | 你更依赖物理直觉还是数学推导？ |
+| **研究取向** | T - 理论家 | E - 实验家 | 你更喜欢理论研究还是动手实验？ |
+| **关注尺度** | M - 微观视角 | C - 宏观视角 | 你更关注粒子世界还是宇宙星空？ |
+| **解题策略** | N - 创新者 | R - 严谨者 | 你更倾向于创新突破还是严谨求证？ |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 16种人格类型
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| 代码 | 名称 | 核心特征 |
+|------|------|----------|
+| ITMN | 🔮 量子先知 | 直觉派理论家·微观视角·创新者 |
+| ITMR | ⚖️ 对称猎手 | 直觉派理论家·微观视角·严谨者 |
+| ITCN | 🌌 宇宙诗人 | 直觉派理论家·宏观视角·创新者 |
+| ITCR | 📐 时空几何学家 | 直觉派理论家·宏观视角·严谨者 |
+| IEMN | 🔬 量子探险家 | 直觉派实验家·微观视角·创新者 |
+| IEMR | ⚡ 精密测量师 | 直觉派实验家·微观视角·严谨者 |
+| IECN | 🔭 宇宙观测者 | 直觉派实验家·宏观视角·创新者 |
+| IECR | 🛰️ 天体测量师 | 直觉派实验家·宏观视角·严谨者 |
+| DTMN | 🏗️ 量子架构师 | 推导派理论家·微观视角·创新者 |
+| DTMR | 🧩 粒子解码者 | 推导派理论家·微观视角·严谨者 |
+| DTCN | 🌠 宇宙建造师 | 推导派理论家·宏观视角·创新者 |
+| DTCR | 🕳️ 引力计算师 | 推导派理论家·宏观视角·严谨者 |
+| DEMN | 🔧 材料探索者 | 推导派实验家·微观视角·创新者 |
+| DEMR | 🌈 光谱分析师 | 推导派实验家·微观视角·严谨者 |
+| DECN | 🚀 空间工程师 | 推导派实验家·宏观视角·创新者 |
+| DECR | 📊 天文数据处理师 | 推导派实验家·宏观视角·严谨者 |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 技术栈
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **前端框架**: React 18 + TypeScript
+- **构建工具**: Vite
+- **样式方案**: Tailwind CSS + shadcn/ui
+- **动画效果**: Framer Motion
+
+## 快速开始
+
+### 环境要求
+
+- Node.js 18+
+- npm 或 yarn
+
+### 安装依赖
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 开发模式
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+访问 http://localhost:5173 开始测试
+
+### 构建生产版本
+
+```bash
+npm run build
+```
+
+### 预览生产版本
+
+```bash
+npm run preview
+```
+
+## 项目结构
+
+```
+pbti-app/
+├── src/
+│   ├── components/        # UI组件
+│   │   └── ui/            # shadcn/ui组件库
+│   ├── data/
+│   │   ├── questions.ts   # 测试题目和分数配置
+│   │   └── types.ts       # 16种人格类型定义
+│   ├── hooks/             # React Hooks
+│   ├── lib/               # 工具函数
+│   ├── App.tsx            # 主应用组件
+│   ├── main.tsx           # 应用入口
+│   └── index.css          # 全局样式
+├── dist/                  # 构建输出
+├── package.json
+├── vite.config.ts
+└── tailwind.config.js
+```
+
+## 分数计算逻辑
+
+每个选项对应8个维度的分数，答题结束后：
+
+1. **维度1**: `I分数 >= D分数` → I，否则 D
+2. **维度2**: `T分数 >= E分数` → T，否则 E
+3. **维度3**: `M分数 >= C分数` → M，否则 C
+4. **维度4**: `N分数 >= R分数` → N，否则 R
+
+四个维度组合成4字母代码，匹配对应的人格类型。
+
+## 部署到 GitHub Pages
+
+1. 修改 `vite.config.ts` 中的 `base` 为你的仓库名：
+   ```typescript
+   base: '/your-repo-name/'
+   ```
+
+2. 构建并部署：
+   ```bash
+   npm run build
+   ```
+
+3. 在 GitHub 仓库设置中启用 Pages，选择分支 + `/dist` 文件夹
+
+## 致谢
+
+灵感来源于 MBTI 人格测试和物理学史上众多伟大的物理学家们。
+
+## License
+
+MIT
