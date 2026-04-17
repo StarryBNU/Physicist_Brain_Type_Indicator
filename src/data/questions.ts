@@ -4,14 +4,14 @@ export interface Question {
   options: {
     text: string;
     scores: {
-      I: number; // 直觉派 Intuitive
-      D: number; // 推导派 Deductive
-      T: number; // 理论家 Theorist
-      E: number; // 实验家 Experimenter
-      M: number; // 微观视角 Micro
-      C: number; // 宏观视角 Cosmo
-      N: number; // 创新者 Novel
-      R: number; // 严谨者 Rigorous
+      I: number;
+      D: number;
+      T: number;
+      E: number;
+      M: number;
+      C: number;
+      N: number;
+      R: number;
     };
   }[];
 }
@@ -23,7 +23,7 @@ export const questions: Question[] = [
     options: [
       { text: "凭直觉猜测答案的大致方向", scores: { I: 2, D: 0, T: 0, E: 0, M: 0, C: 0, N: 1, R: 0 } },
       { text: "从基本原理出发逐步推导", scores: { I: 0, D: 2, T: 1, E: 0, M: 0, C: 0, N: 0, R: 1 } },
-      { text: "先做个小实验或模拟看看", scores: { I: 0, D: 0, T: 0, E: 2, M: 0, C: 0, N: 1, R: 0 } },
+      { text: "先做个小实验或模拟看看", scores: { I: 0, D: 0, T: 0, E: 2, M: 1, C: 0, N: 1, R: 0 } },
     ],
   },
   {
@@ -31,8 +31,8 @@ export const questions: Question[] = [
     text: "你更喜欢研究哪个尺度的物理现象？",
     options: [
       { text: "微观世界：粒子、原子、量子", scores: { I: 0, D: 0, T: 0, E: 0, M: 2, C: 0, N: 0, R: 0 } },
-      { text: "宏观宇宙：星系、黑洞、宇宙学", scores: { I: 1, D: 0, T: 0, E: 0, M: 0, C: 2, N: 1, R: 0 } },
-      { text: "日常生活尺度：力学、热学、电磁学", scores: { I: 0, D: 1, T: 0, E: 1, M: 0, C: 0, N: 0, R: 1 } },
+      { text: "宏观宇宙：星系、黑洞、宇宙学", scores: { I: 0, D: 0, T: 0, E: 0, M: 0, C: 2, N: 0, R: 0 } },
+      { text: "日常生活尺度：力学、热学、电磁学", scores: { I: 0, D: 0, T: 0, E: 0, M: 1, C: 1, N: 0, R: 0 } },
     ],
   },
   {
@@ -100,7 +100,7 @@ export const questions: Question[] = [
   },
   {
     id: 10,
-    text: "当你听到\"黑洞\"这个词时，首先想到的是？",
+    text: "当你听到「黑洞」这个词时，首先想到的是？",
     options: [
       { text: "时空弯曲和奇点", scores: { I: 1, D: 1, T: 2, E: 0, M: 0, C: 2, N: 0, R: 1 } },
       { text: "霍金辐射和信息悖论", scores: { I: 2, D: 1, T: 2, E: 0, M: 1, C: 1, N: 2, R: 0 } },
@@ -118,7 +118,7 @@ export const questions: Question[] = [
   },
   {
     id: 12,
-    text: "你如何看待物理中的\"美\"？",
+    text: "你如何看待物理中的「美」？",
     options: [
       { text: "简洁优雅的公式和定律", scores: { I: 1, D: 1, T: 2, E: 0, M: 0, C: 1, N: 1, R: 1 } },
       { text: "对称性和统一性", scores: { I: 2, D: 1, T: 2, E: 0, M: 0, C: 1, N: 2, R: 1 } },
@@ -208,7 +208,7 @@ export const questions: Question[] = [
   },
   {
     id: 22,
-    text: "你认为什么是\"理解\"一个物理概念？",
+    text: "你认为什么是「理解」一个物理概念？",
     options: [
       { text: "能够直观地想象其物理图像", scores: { I: 2, D: 0, T: 1, E: 0, M: 0, C: 0, N: 1, R: 0 } },
       { text: "能够进行完整的数学推导", scores: { I: 0, D: 2, T: 2, E: 0, M: 0, C: 0, N: 0, R: 2 } },
