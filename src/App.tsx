@@ -268,9 +268,9 @@ function App() {
                     key={index}
                     onClick={() => handleAnswer(index)}
                     variant="outline"
-                    className="w-full justify-start text-left p-5 h-auto border-slate-600 hover:border-cyan-500 hover:bg-cyan-500/10 text-slate-200 hover:text-white transition-all duration-200 group"
+                    className="w-full justify-start text-left p-5 h-auto border-slate-300 hover:border-cyan-500 hover:bg-cyan-500/10 text-gray-900 hover:text-white transition-all duration-200 group"
                   >
-                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-700 group-hover:bg-cyan-500/30 flex items-center justify-center mr-4 text-sm font-medium transition-colors">
+                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-200 group-hover:bg-cyan-500/30 flex items-center justify-center mr-4 text-sm font-medium text-gray-700 group-hover:text-cyan-700 transition-colors">
                       {String.fromCharCode(65 + index)}
                     </span>
                     <span className="text-base leading-relaxed">{option.text}</span>
